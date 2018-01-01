@@ -1,0 +1,135 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div id='home'>
+    <div>
+        <b-carousel id="carousel1"
+                    style="text-shadow: 1px 1px 2px #333;"
+                    controls
+                    indicators
+                    background="#ababab"
+                    :interval="4000"
+                    img-width="1024"
+                    img-height="480"
+                    v-model="slide"
+                    v-on:sliding-start="onSlideStart"
+                    v-on:sliding-end="onSlideEnd">
+
+            <b-carousel-slide caption="ASP.NET">
+                <img slot="img" class="d-block img-fluid w-100" width="1024" height="480"
+                     src="~/images/banner1.svg" alt="image slot">
+                <p>
+                    Learn how to build ASP.NET apps that can run anywhere.
+                    <a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkID=525028&clcid=0x409">
+                        Learn More
+                    </a>
+                </p>
+            </b-carousel-slide>
+
+            <b-carousel-slide caption="Visual Studio">
+                <img slot="img" class="d-block img-fluid w-100" width="1024" height="480"
+                     src="~/images/banner2.svg" alt="image slot">
+                <p>
+                    There are powerful new features in Visual Studio for building modern web apps.
+                    <a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkID=525030&clcid=0x409">
+                        Learn More
+                    </a>
+                </p>
+            </b-carousel-slide>
+
+            <b-carousel-slide caption="Package Management">
+                <img slot="img" class="d-block img-fluid w-100" width="1024" height="480"
+                     src="~/images/banner3.svg" alt="image slot">
+                <p>
+                    Bring in libraries from NuGet and npm, and automate tasks using Grunt or Gulp.
+                    <a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkID=525029&clcid=0x409">
+                        Learn More
+                    </a>
+                </p>
+            </b-carousel-slide>
+
+            <b-carousel-slide caption="VueJS">
+                <img slot="img" class="d-block img-fluid w-25" style="margin-left:38%;" height="480"
+                     src="~/images/vue-logo.png" alt="image slot">
+                <p>
+                    The Progressive JavaScript Framework
+                    <a class="btn btn-default" href="https://vuejs.org">
+                        Learn More
+                    </a>
+                </p>
+
+            </b-carousel-slide>
+            <b-carousel-slide caption="Bootstrap">
+                <img slot="img" class="d-block img-fluid w-25" style="margin-left:38%;" height="480"
+                src="~/images/bootstrap-stack.png" alt="image slot">
+                <p>
+
+                    Build responsive, mobile-first projects on the web with the world's most popular front-end component library.
+                   
+                    Learn More : <a class="btn btn-default" href="https://getbootstrap.com">Bootstrap 4</a> | <a class="btn btn-default" href="https://bootstrap-vue.js.org/">Bootstrap-Vue</a>
+                </p>
+        </b-carousel>
+    </div>
+</div>
+
+<script>
+    new Vue({
+        el: '#home',
+        data: {
+            slide: 0,
+            sliding: null
+        },
+        methods: {
+            onSlideStart: function (slide) {
+                this.sliding = true
+            },
+            onSlideEnd: function (slide) {
+                this.sliding = false
+            }
+        }
+    });
+</script>
+<div class="row">
+    <div class="col-md-3">
+        <h4>Application uses</h4>
+        <ul>
+            <li>Sample pages using ASP.NET Core Razor Pages</li>
+            <li><a href="https://vuejs.org">VueJS</a> for client side Javascript framework</li>
+            <li>Theming using <a href="https://getbootstrap.com">Bootstrap</a> and <a href="https://bootstrap-vue.js.org">Bootstrap-Vue</a></li>
+            <li><a href="https://github.com/axios/axios">Axios</a> for REST API calls from browser.</li>
+        </ul>
+    </div>
+    <div class="col-md-3">
+        <h4>How to</h4>
+        <ul>
+            <li><a href="https://go.microsoft.com/fwlink/?linkid=852130">Working with Razor Pages.</a></li>
+            <li><a href="https://go.microsoft.com/fwlink/?LinkId=699315">Manage User Secrets using Secret Manager.</a></li>
+            <li><a href="https://go.microsoft.com/fwlink/?LinkId=699316">Use logging to log a message.</a></li>
+            <li><a href="https://go.microsoft.com/fwlink/?LinkId=699317">Add packages using NuGet.</a></li>
+            <li><a href="https://go.microsoft.com/fwlink/?LinkId=699319">Target development, staging or production environment.</a></li>
+        </ul>
+    </div>
+    <div class="col-md-3">
+        <h4>Overview</h4>
+        <ul>
+            <li><a href="https://go.microsoft.com/fwlink/?LinkId=518008">Conceptual overview of what is ASP.NET Core</a></li>
+            <li><a href="https://go.microsoft.com/fwlink/?LinkId=699320">Fundamentals of ASP.NET Core such as Startup and middleware.</a></li>
+            <li><a href="https://go.microsoft.com/fwlink/?LinkId=398602">Working with Data</a></li>
+            <li><a href="https://go.microsoft.com/fwlink/?LinkId=398603">Security</a></li>
+            <li><a href="https://go.microsoft.com/fwlink/?LinkID=699321">Client side development</a></li>
+            <li><a href="https://go.microsoft.com/fwlink/?LinkID=699322">Develop on different platforms</a></li>
+            <li><a href="https://go.microsoft.com/fwlink/?LinkID=699323">Read more on the documentation site</a></li>
+        </ul>
+    </div>
+    <div class="col-md-3">
+        <h4>Run &amp; Deploy</h4>
+        <ul>
+            <li><a href="https://go.microsoft.com/fwlink/?LinkID=517851">Run your app</a></li>
+            <li><a href="https://go.microsoft.com/fwlink/?LinkID=517853">Run tools such as EF migrations and more</a></li>
+            <li><a href="https://go.microsoft.com/fwlink/?LinkID=398609">Publish to Microsoft Azure App Service</a></li>
+        </ul>
+    </div>
+</div>

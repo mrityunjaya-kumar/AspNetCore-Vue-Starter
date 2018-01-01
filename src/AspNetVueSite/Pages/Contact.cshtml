@@ -1,0 +1,43 @@
+﻿@page
+@model ContactModel
+@{
+    ViewData["Title"] = "Contact";
+}
+<div id="contact">
+    <h3>{{ title }}</h3>
+
+    <p>This page demonstrates rendering data within Vue instance using Razor server side rendering.</p>
+
+    <b>{{ message }}</b>
+
+    <address>
+        {{ address.line1 }}<br />
+        {{ address.line2 }}9<br />
+        <abbr title="Phone">P:</abbr>
+        {{ address.phone }}
+    </address>
+
+    <address>
+        <strong>Support:</strong> <a v-bind:href="'mailto:' + emails.support">{{ emails.support }}</a><br />
+        <strong>Marketing:</strong> <a v-bind:href="'mailto:' + emails.marketing">{{ emails.marketing }}</a>
+    </address>
+</div>
+
+<script>
+    var app = new Vue({
+        el: '#contact',
+        data: {
+            title: '@ViewData["Title"]',
+            message: '@Model.Message',
+            address: {
+                line1: '@Model.Address.Line1',
+                line2: '@Model.Address.Line2',
+                phone: '@Model.Address.Phone'
+            },
+            emails: {
+                support: '@Model.Emails.SupportEmail',
+                marketing: '@Model.Emails.MarketingEmail'
+            }
+        }
+    })
+</script>

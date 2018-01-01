@@ -1,0 +1,24 @@
+﻿@page
+@model AboutModel
+@{
+    ViewData["Title"] = "About";
+}
+<div id="about">
+    <h3>[{{ title }}]</h3>
+
+    <p>This is simple page using Vue to display above page title and below message.</p>
+
+    <h5>[{{ message }}]</h5>
+</div>
+
+<p>Use this area to provide additional information.</p>
+
+<script>
+    var app = new Vue({
+        el: '#about',
+        data: {
+            title: '@ViewData["Title"]',
+            message: '@Model.Message'
+        }
+    })
+</script>

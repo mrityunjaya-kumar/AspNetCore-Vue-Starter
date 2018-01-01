@@ -1,0 +1,136 @@
+﻿@page
+@model AspNetVueSite.Pages.TodoModel
+@{
+    ViewData["Title"] = "TODO List";
+}
+
+<h3>@ViewData["Title"]</h3>
+
+<p>This component demonstrates CRUD operations using Vue + REST API.</p>
+
+<div id="todo-list">
+
+    <p><b>Manage your TODO list...</b></p>
+
+    <b-input-group size="sm">
+        <b-input-group-addon>
+            Todo Description:&nbsp;
+        </b-input-group-addon>
+        <b-input-group-button slot="right">
+            &nbsp;
+            <b-btn variant="success" v-on:click="addNewTodo">Add</b-btn>
+            <b-btn variant="danger" v-on:click="clearAll">Clear All</b-btn>
+        </b-input-group-button>
+        <b-form-input type="text" v-model="newTodoText" placeholder="I have to ..." />
+    </b-input-group>
+    <br />
+    <br />
+    <b-card variant="secondary" bg-variant="light" text-variant="black" v-if="todos.length">
+        <p class="card-text"><b>I have to complete following items:</b></p>
+        <b-list-group v-if="todos.length">
+            <b-list-group-item class="d-flex justify-content-between align-items-right"
+                               is="todo-item"
+                               v-for="(todo, index) in todos"
+                               v-bind:key="todo.id"
+                               v-bind:title="todo.title"
+                               v-bind:id="todo.id"
+                               v-on:remove="removeTodo(todo, index);">
+            </b-list-group-item>
+        </b-list-group>
+    </b-card>
+
+
+    <p v-else class="text-success">I have nothing to do right now!</p>
+
+</div>
+<script>
+    Vue.component('todo-item', {
+        template: '\
+            <b-list-group-item class="d-flex justify-content-between align-items-right">\
+              {{ title }}\
+              <b-btn size="sm" variant="warning" v-on:click="$emit(\'remove\')">X</b-btn>\
+            </b-list-group-item>\
+            ',
+        props: ['title']
+    })
+
+    new Vue({
+        el: '#todo-list',
+        data: {
+            newTodoText: '',
+            todos: [],
+        },
+        mounted: async function () {
+            var _self = this;
+            _self.getTodo();
+        },
+        methods: {
+            /*Get all todo items in the list*/
+            getTodo: async function () {
+                var _self = this;
+                try { 
+                    var response = await axios.get('/api/todo');
+
+                    console.log("Successfully called GET /api/todo");
+                    console.log(response.data);
+                    _self.todos = response.data;
+                    _self.newTodoText = '';
+
+                } catch (error) { 
+                    console.log("Error calling GET /api/todo . Error: " + error);
+                }
+            },
+
+            /*Add a new todo item in the list*/
+            addNewTodo: async function () {
+                var _self = this;
+                try {
+                    var response = await axios.post('/api/todo', JSON.stringify(this.newTodoText), {
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    });
+
+                    console.log("Successfully called POST /api/todo. \n Data: " + response.data);
+                    _self.todos.push({
+                        id: response.data.id,
+                        title: response.data.title
+                    });
+                    _self.newTodoText = '';
+
+                } catch (error) { 
+                    console.log("Error calling POST /api/todo. Error: " + error);
+                }
+            },
+
+            /*Remove todo item from list based on button [X] selection */
+            removeTodo: async function (todo, index) {
+                var _self = this;
+                var id = todo.id;
+                
+                try {
+                    var response = await axios.delete('/api/todo/' + id);
+                    console.log("Successfully called DELETE /api/todo/" + id);
+                    _self.todos.splice(index, 1)
+                    _self.newTodoText = '';
+                } catch (error) { 
+                    console.log("Error calling DELETE /api/todo/" + id + ". Error: " + error);
+                }
+            },
+
+            /*Clear all todo items from list */
+            clearAll: async function () {
+                _self = this;
+                try {
+                    var response = await axios.delete('/api/todo/clear');
+                    console.log("Successfully called DELETE /api/todo/clear");
+                    _self.todos = [];
+                    _self.newTodoText = '';
+                } catch (error) { 
+                    console.log("Error calling DELETE /api/todo/. Error: " + error);
+                }
+            }
+        }
+    })
+
+</script>

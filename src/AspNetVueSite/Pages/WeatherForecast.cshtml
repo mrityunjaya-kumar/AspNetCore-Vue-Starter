@@ -1,0 +1,33 @@
+﻿@page
+@model AspNetVueSite.Pages.FetchDataModel
+@{ 
+    ViewData["Title"] = "Weather Forecast";
+}
+
+<h3>@ViewData["Title"]</h3>
+
+<div id="weather-forecast">
+    <p>This component demonstrates fetching data from the server.</p>
+
+    <b-table v-if="forecasts.length" :items="forecasts" :fields="tableFields.item"></b-table>
+    <p v-else><em>Loading...</em></p>
+</div>
+
+<script>
+    new Vue({
+        el: '#weather-forecast',
+        data: {
+            tableFields: ['Date', 'Temp. (C)', 'Temp. (F)','Summary'],
+            forecasts:[]
+        },
+        mounted: async function () { 
+            var _self = this;
+            try {
+                let response = await axios.get('api/weather-data/forecasts');
+                _self.forecasts = response.data;
+            } catch (error) { 
+                console.log('Error calling GET api/weather-data/forecasts. Error: ' + error);
+            }
+        }
+    });
+</script>
